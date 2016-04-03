@@ -1,0 +1,29 @@
+{
+	"name" : "mkungla/standard-colors-php",
+	"description" : "Standard colors",
+	"type" : "library",
+	"autoload" : {
+		"psr-4" : {
+			"StandardColors" : ""
+		}
+	},
+	"require" : {
+		"php" : ">= 5.3"
+	},
+	"minimum-stability" : "dev",
+	"config" : {
+		"optimize-autoloader" : true
+	},
+	"homepage" : "https://github.com/mkungla/standard-colors",
+	"authors" : [{
+			"name" : "Marko Kungla",
+			"email" : "marko.kungla@gmail.com",
+			"homepage" : "https://github.com/mkungla",
+			"role" : "Developer"
+		}
+	],
+	"support" : {
+		"issues" : "https://github.com/mkungla/standard-colors/issues",
+		"source" : "https://github.com/mkungla/standard-colors-php"
+	}
+}
