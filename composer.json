@@ -5,6 +5,9 @@
 	"autoload" : {
 		"psr-4" : {
 			"StandardColors" : ""
+		},
+		"files" : {
+			"sc-bootstrap.php"
 		}
 	},
 	"require" : {

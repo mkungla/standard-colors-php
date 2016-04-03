@@ -24,6 +24,21 @@
  * ********************************************************************
  * Comments:
  * @formatter:on */
+
+/**
+ * Include bootstrap file which sets constants and other global settings
+ */
+require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'sc-bootstrap.php';
+
+/**
+ * Autoulad function
+ * 
+ * This autoloader is used when this library is used as
+ * standalone library. You don't need this autoloader 
+ * if you installed this library with composer.
+ *  
+ * @param string $class
+ */
 function standard_colors_autoloder($class = false)
 {
     $class_n = preg_replace(array(
@@ -34,8 +49,12 @@ function standard_colors_autoloder($class = false)
         DIRECTORY_SEPARATOR
     ), $class);
     
-    $class_file = dirname(__FILE__) . $class_n . '.php';
+    $class_file = STANDARD_COLORS_ROOT . $class_n . '.php';
     if (file_exists($class_file))
         require_once ($class_file);
 }
+
+/**
+ * Register standard_colors_autoloder autoloader
+ */
 spl_autoload_register('standard_colors_autoloder');
