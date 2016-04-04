@@ -6,9 +6,9 @@
 		"psr-4" : {
 			"StandardColors" : ""
 		},
-		"files" : {
+		"files" : [
 			"sc-bootstrap.php"
-		}
+		]
 	},
 	"require" : {
 		"php" : ">= 5.3"
