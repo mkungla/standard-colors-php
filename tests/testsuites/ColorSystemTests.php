@@ -91,7 +91,15 @@ class ColorSystemTests extends PHPUnit_Framework_TestCase
     {
         foreach ($this->ColorSystems as $ColorSystem) {
             /* PHP 7 */
-            $expected = STANDARD_COLORS['DATA_ROOT'] . DIRECTORY_SEPARATOR . STANDARD_COLORS['COLOR_SYSTEMS'][$ColorSystem]['id'] . DIRECTORY_SEPARATOR . STANDARD_COLORS['COLOR_SYSTEMS'][$ColorSystem]['rev'];
+            if(PHP_VERSION_ID > 70000)
+            {
+                $expected = STANDARD_COLORS['DATA_ROOT'] . DIRECTORY_SEPARATOR . STANDARD_COLORS['COLOR_SYSTEMS'][$ColorSystem]['id'] . DIRECTORY_SEPARATOR . STANDARD_COLORS['COLOR_SYSTEMS'][$ColorSystem]['rev'];
+            }
+            else
+            {
+                $STANDARD_COLORS_COLOR_SYSTEMS = json_decode(STANDARD_COLORS_COLOR_SYSTEMS, true);
+                $expected = STANDARD_COLORS_DATA_ROOT . DIRECTORY_SEPARATOR . $STANDARD_COLORS_COLOR_SYSTEMS[$ColorSystem]['id'] . DIRECTORY_SEPARATOR . $STANDARD_COLORS_COLOR_SYSTEMS[$ColorSystem]['rev'];
+            }
             $this->assertEquals($expected, $this->SC->cs($ColorSystem)
                 ->getDataPath());
         }

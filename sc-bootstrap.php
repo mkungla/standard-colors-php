@@ -102,6 +102,7 @@ if (defined('PHP_VERSION_ID') && PHP_VERSION_ID >= 80000) {
         } elseif (is_array($SC_CFG_VAR)) {
             /* If we got array of values */
             $VALUE = json_encode($SC_CFG_VAR);
+            
         } else {
             die("Unexpected type while defining constants!");
         }
