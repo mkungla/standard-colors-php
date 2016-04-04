@@ -89,11 +89,8 @@ abstract class ColorSystemAbstract
         $chart_file = $this->getDataPath() . DIRECTORY_SEPARATOR . 'chart.json';
         
         /* Check does this file exists */
-        if (! file_exists($chart_file))
-            return false;
-            
-            /* We trust that this file contains valid json data */
-        return json_decode(file_get_contents($chart_file), true);
+        /* We trust that this file contains valid json data */
+        return (! file_exists($chart_file)) ? false : json_decode(file_get_contents($chart_file), true);
     }
 
     /**
@@ -106,12 +103,9 @@ abstract class ColorSystemAbstract
         /* Locale file path for Color system */
         $locale_file = $this->getDataPath() . DIRECTORY_SEPARATOR . 'locale.' . $this->locale . '.json';
         
-        /* Check does this file exists */
-        if (! file_exists($locale_file))
-            return false;
-            
-            /* We trust that this file contains valid json data */
-        return json_decode(file_get_contents($locale_file), true);
+        /* Check does this file exists */   
+        /* We trust that this file contains valid json data */
+        return (! file_exists($locale_file)) ? false :json_decode(file_get_contents($locale_file), true);
     }
 
     /**
@@ -130,7 +124,7 @@ abstract class ColorSystemAbstract
     }
     
     // CSS Minifier https://gist.github.com/tovic/d7b310dea3b33e4732c0
-    protected function minify_css($input)
+    public function minify_css($input)
     {
         if (trim($input) === "")
             return $input;

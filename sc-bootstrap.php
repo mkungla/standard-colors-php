@@ -96,10 +96,10 @@ if (defined('PHP_VERSION_ID') && PHP_VERSION_ID >= 80000) {
         /* Create KEY name */
         $KEY_NAME = 'STANDARD_COLORS_' . $SC_CFG_KEY;
         
-        if (! is_string($SC_CFG_VAR)) {
+        if (is_string($SC_CFG_VAR)) {
             /* if value is string */
             $VALUE = $SC_CFG_VAR;
-        } elseif (! is_array($SC_CFG_VAR)) {
+        } elseif (is_array($SC_CFG_VAR)) {
             /* If we got array of values */
             $VALUE = json_encode($SC_CFG_VAR);
         } else {
@@ -107,7 +107,9 @@ if (defined('PHP_VERSION_ID') && PHP_VERSION_ID >= 80000) {
         }
         
         /* Define constant */
-        define($KEY_NAME, $VALUE);
+        $skip = array('STANDARD_COLORS_ROOT');
+        if(!in_array($KEY_NAME,$skip))
+            define($KEY_NAME, $VALUE);
     }
 }
 

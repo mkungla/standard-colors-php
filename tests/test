@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+# ******************************************************************
+# Created by   Marko Kungla on Apr 4, 2016 - 1:56:21 AM
+# Contact      marko.kungla@gmail.com
+# @copyright   2016 Marko Kungla - https://github.com/mkungla
+# @license     The MIT License (MIT)
+# 
+# Package name    standard-colors-php
+# @category       mkungla
+# @package        standard-colors
+# @subpackage     php
+# 
+# Lang         bash
+# Encoding     UTF-8
+# File         test.sh
+# @link        https://github.com/mkungla/standard-colors-php
+# @issues      https://github.com/mkungla/standard-colors/issues
+# ********************************************************************
+# Contributors:
+# @author Marko Kungla <marko.kungla@gmail.com>
+# ********************************************************************
+# Comments:
+
+PHP_VERSION_ID=$(php -r "printf(PHP_VERSION_ID);")
+if [ $PHP_VERSION_ID -lt 70000 ] ; then
+	# Cover php5 
+	phpunit -c phpunit.xml --whitelist="../lib/php5"
+else 
+	# Cover php7 
+	phpunit -c phpunit.xml --whitelist="../lib/php7"
+fi

@@ -65,8 +65,8 @@ class ColorSystems
                 $this->supported_locales = STANDARD_COLORS['LOCALES'];
             break;
             case 5 :
-                $this->supported_color_systems = json_decode(STANDARD_COLORS_COLOR_SYSTEMS);
-                $this->supported_locales = json_decode(STANDARD_COLORS_LOCALES);
+                $this->supported_color_systems = json_decode(STANDARD_COLORS_COLOR_SYSTEMS,true);
+                $this->supported_locales = json_decode(STANDARD_COLORS_LOCALES,true);
             break;
         }
          
@@ -139,6 +139,11 @@ class ColorSystems
             $this->setLocale();
         
         return $this->locale;
+    }
+    
+    public function getSupportedColorSystems()
+    {
+        return $this->supported_color_systems;
     }
     
     /**

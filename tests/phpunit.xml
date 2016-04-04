@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="../autoload.php" colors="true"
+	printerFile="tests/results/ResultPrinter.php"
+	beStrictAboutTestsThatDoNotTestAnything="true"
+	columns="67"
+	verbose="true"
+	stopOnError="true"
+	stopOnFailure="true">
+	<php>
+		<const name="FS_TEST_LOG_LEVEL" value="7"/>
+	</php>
+	<testsuites>
+		<testsuite name="MainTests">
+			<file phpVersion="5.3.0"
+				phpVersionOperator=">=">testsuites/GeneralTests.php</file>
+			<file phpVersion="5.3.0"
+				phpVersionOperator=">=">testsuites/ColorSystemTests.php</file>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../interfaces</directory>
+			<directory suffix=".php">../objects</directory>
+			<directory>../autoload.php</directory>
+			<file>../sc-bootstrap.php</file>
+			<file>../ColorSystem.inc</file>
+		</whitelist>
+	</filter>
+	<logging>
+		<log type="coverage-html" target="phpunit/report" lowUpperBound="35"
+			highLowerBound="70" />
+		<log type="json" target="phpunit/log/logfile.json" />
+		<log type="junit" target="phpunit/log/logfile.xml"
+			logIncompleteSkipped="false" />
+		<log type="testdox-html" target="phpunit/testdox.html" />
+	</logging>
+</phpunit>
