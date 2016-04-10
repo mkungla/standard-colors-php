@@ -2,6 +2,7 @@
 	"name" : "mkungla/standard-colors-php",
 	"description" : "Standard colors",
 	"type" : "library",
+	"license": "MIT",
 	"autoload" : {
 		"psr-4" : {
 			"StandardColors\\" : ""
