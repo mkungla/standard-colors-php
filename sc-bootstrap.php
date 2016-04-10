@@ -32,6 +32,7 @@ $SC_CFG_VARS = array(
     'COLOR_SYSTEMS' => array(
         'RAL' => array(
             'id' => 'RAL',
+            'name' => 'Classic RAL System',
             'rev' => 'rev-1'
         )
     ),
