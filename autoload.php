@@ -50,6 +50,7 @@ function standard_colors_autoloder($class = false)
     ), $class);
     
     $class_file = STANDARD_COLORS_ROOT . $class_n . '.php';
+    
     if (file_exists($class_file))
         require_once ($class_file);
 }

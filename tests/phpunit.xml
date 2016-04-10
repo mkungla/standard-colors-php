@@ -10,11 +10,19 @@
 		<const name="FS_TEST_LOG_LEVEL" value="7"/>
 	</php>
 	<testsuites>
-		<testsuite name="MainTests">
+		<testsuite name="General">
 			<file phpVersion="5.3.0"
-				phpVersionOperator=">=">testsuites/GeneralTests.php</file>
+				phpVersionOperator=">=">testsuites/General/GeneralTests.php</file>
 			<file phpVersion="5.3.0"
-				phpVersionOperator=">=">testsuites/ColorSystemTests.php</file>
+				phpVersionOperator=">=">testsuites/General/ColorSystemTests.php</file>
+		</testsuite>
+		<testsuite name="HTML">
+			<file phpVersion="5.3.0"
+				phpVersionOperator=">=">testsuites/HTML/DomDocumentTests.php</file>
+			<file phpVersion="5.3.0"
+				phpVersionOperator=">=">testsuites/HTML/DomSelectTests.php</file>
+			<file phpVersion="5.3.0"
+				phpVersionOperator=">=">testsuites/HTML/DomSelectOptionTests.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
@@ -23,6 +31,7 @@
 			<directory suffix=".php">../objects</directory>
 			<directory>../autoload.php</directory>
 			<file>../sc-bootstrap.php</file>
+			<file>../lib/HTMLDocument.php</file>
 			<file>../ColorSystem.inc</file>
 		</whitelist>
 	</filter>

@@ -30,6 +30,8 @@ class ColorObject
 
     public $ID;
 
+    public $KEY;
+    
     public $name;
 
     public $red;

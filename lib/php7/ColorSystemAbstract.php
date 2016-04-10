@@ -25,6 +25,8 @@
  * @formatter:on */
 namespace StandardColors\lib\php7;
 
+use \StandardColors\lib\php7\html\DomDocument;
+
 abstract class ColorSystemAbstract
 {
 
@@ -59,10 +61,20 @@ abstract class ColorSystemAbstract
     protected $standard_rev;
 
     /**
+     * HTML dom document object if loaded
+     *
+     * Like: rev-1 etc.
+     *
+     * @var $htmlObject \StandardColors\interfaces\HTML\DomDocumentInterface
+     */
+    protected $htmlObject;
+
+    /**
      * ColorSystem constructor
      */
-    public function __construct($locale_id)
+    public function __construct($color_system, $locale_id)
     {
+        $this->color_system = $color_system;
         $this->locale = $locale_id;
     }
 
@@ -75,7 +87,7 @@ abstract class ColorSystemAbstract
      */
     public function getDataPath()
     {
-        return STANDARD_COLORS['DATA_ROOT'] . DIRECTORY_SEPARATOR . STANDARD_COLORS['COLOR_SYSTEMS']['RAL']['id'] . DIRECTORY_SEPARATOR . STANDARD_COLORS['COLOR_SYSTEMS']['RAL']['rev'];
+        return STANDARD_COLORS['DATA_ROOT'] . DIRECTORY_SEPARATOR . STANDARD_COLORS['COLOR_SYSTEMS'][$this->color_system]['id'] . DIRECTORY_SEPARATOR . STANDARD_COLORS['COLOR_SYSTEMS'][$this->color_system]['rev'];
     }
 
     /**
@@ -103,9 +115,9 @@ abstract class ColorSystemAbstract
         /* Locale file path for Color system */
         $locale_file = $this->getDataPath() . DIRECTORY_SEPARATOR . 'locale.' . $this->locale . '.json';
         
-        /* Check does this file exists */   
+        /* Check does this file exists */
         /* We trust that this file contains valid json data */
-        return (! file_exists($locale_file)) ? false :json_decode(file_get_contents($locale_file), true);
+        return (! file_exists($locale_file)) ? false : json_decode(file_get_contents($locale_file), true);
     }
 
     /**
@@ -163,6 +175,15 @@ abstract class ColorSystemAbstract
             '$1:0',
             '$1$2'
         ), $input);
+    }
+
+    public function html()
+    {
+        /* @formatter:off */
+        return (! $this->htmlObject instanceof DomDocument)
+        ? ($this->htmlObject = new DomDocument($this->getAll(), $this->color_system))
+        : $this->htmlObject;
+        /* @formatter:on */
     }
 }
  

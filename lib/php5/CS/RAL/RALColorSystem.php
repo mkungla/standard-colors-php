@@ -1,7 +1,7 @@
 <?php
 /** @formatter:off
  * ******************************************************************
- * Created by   Marko Kungla on Apr 3, 2016 - 2:56:21 PM
+ * Created by   Marko Kungla on Apr 4, 2016 - 5:52:23 AM
  * Contact      marko.kungla@gmail.com
  * @copyright   2016 Marko Kungla - https://github.com/mkungla
  * @license     The MIT License (MIT)
@@ -23,14 +23,14 @@
  * ********************************************************************
  * Comments:
  * @formatter:on */
-namespace StandardColors\lib\php7\RAL;
+namespace StandardColors\lib\php5\CS\RAL;
 
 /* Common objects and interfaces */
 use \StandardColors\interfaces\ColorSystemIntreface;
 use \StandardColors\objects\ColorObject;
 
 /* Specific for PHP v7.x */
-use \StandardColors\lib\php7\ColorSystemAbstract;
+use \StandardColors\lib\php5\ColorSystemAbstract;
 
 class RALColorSystem extends ColorSystemAbstract implements ColorSystemIntreface
 {
@@ -59,7 +59,7 @@ class RALColorSystem extends ColorSystemAbstract implements ColorSystemIntreface
         $chart = $this->loadChart();
         $locale = $this->loadLocale($this->locale);
         $updated = false;
-        
+    
         /* If any of data sources failed to load return false */
         if ($chart && $locale && is_array($chart) && is_array($locale))
         {
@@ -71,47 +71,50 @@ class RALColorSystem extends ColorSystemAbstract implements ColorSystemIntreface
                  * where $color_id is also only digit from RAL color code
                  */
                 $color_key = trim(substr($color['RAL'], 4));
-            
+    
                 /* Get name of color from locale array */
                 $color_name = $locale[$color_key];
-            
+    
                 /* Create ColorObject */
                 $color_object = new ColorObject();
                 $color_object->ID = $color['RAL'];
+                $color_object->KEY = $color_key;
                 $color_object->name = $color_name;
-            
+    
                 /* RGB */
                 $rgb = explode('-', $color['RGB']);
-            
+    
                 $color_object->red = $rgb[0];
                 $color_object->green = $rgb[1];
                 $color_object->blue = $rgb[2];
-            
+    
                 /* HEX */
                 $color_object->hex = $color['HEX'];
-            
+    
                 /* TEXT */
                 $color_object->text_type = $color['TXT'];
-                $color_object->text_hex = STANDARD_COLORS['TEXT'][$color['TXT']]['hex'];
-            
-                $color_object->text_red = STANDARD_COLORS['TEXT'][$color['TXT']]['r'];
-                $color_object->text_green = STANDARD_COLORS['TEXT'][$color['TXT']]['g'];
-                $color_object->text_blue = STANDARD_COLORS['TEXT'][$color['TXT']]['b'];
-            
+                
+                $STANDARD_COLORS_TEXT = json_decode(STANDARD_COLORS_TEXT,true);
+                $color_object->text_hex = $STANDARD_COLORS_TEXT[$color['TXT']]['hex'];
+
+                $color_object->text_red = $STANDARD_COLORS_TEXT[$color['TXT']]['r'];
+                $color_object->text_green = $STANDARD_COLORS_TEXT[$color['TXT']]['g'];
+                $color_object->text_blue = $STANDARD_COLORS_TEXT[$color['TXT']]['b'];
+
                 /* CSS classes */
                 /* foreground */
-                $color_object->css_fg_hex = '.sc-ral-' . $color_key . '-fg-hex';
-                $color_object->css_fg_rgb = '.sc-ral-' . $color_key . '-fg-rgb';
+                $color_object->css_fg_hex = 'sc-ral-' . $color_key . '-fg-hex';
+                $color_object->css_fg_rgb = 'sc-ral-' . $color_key . '-fg-rgb';
                 /* background */
-                $color_object->css_bg_hex = '.sc-ral-' . $color_key . '-bg-hex';
-                $color_object->css_bg_rgb = '.sc-ral-' . $color_key . '-bg-rgb';
-            
+                $color_object->css_bg_hex = 'sc-ral-' . $color_key . '-bg-hex';
+                $color_object->css_bg_rgb = 'sc-ral-' . $color_key . '-bg-rgb';
+    
                 /* Add ColorObject to $this->colors */
                 $this->colors[$color_key] = $color_object;
                 $updated = true;
             }
         }
-        
+    
         return $updated ? $this->colors : false;
     }
 
@@ -125,20 +128,22 @@ class RALColorSystem extends ColorSystemAbstract implements ColorSystemIntreface
     public function dist()
     {
         /* Set paths CSS file */
-        $css_file_root = STANDARD_COLORS['ROOT'] . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . STANDARD_COLORS['COLOR_SYSTEMS']['RAL']['id'] . DIRECTORY_SEPARATOR . STANDARD_COLORS['COLOR_SYSTEMS']['RAL']['rev'] . DIRECTORY_SEPARATOR . 'css';
-        $css_file = $css_file_root . DIRECTORY_SEPARATOR . strtolower(STANDARD_COLORS['COLOR_SYSTEMS']['RAL']['id']) . '.css';
-        $css_file_min = $css_file_root . DIRECTORY_SEPARATOR . strtolower(STANDARD_COLORS['COLOR_SYSTEMS']['RAL']['id']) . '.min.css';
+        $STANDARD_COLORS_COLOR_SYSTEMS = json_decode(STANDARD_COLORS_COLOR_SYSTEMS, true);
         
+        $css_file_root = STANDARD_COLORS_ROOT . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . $STANDARD_COLORS_COLOR_SYSTEMS['RAL']['id'] . DIRECTORY_SEPARATOR . $STANDARD_COLORS_COLOR_SYSTEMS['RAL']['rev'] . DIRECTORY_SEPARATOR . 'css';
+        $css_file = $css_file_root . DIRECTORY_SEPARATOR . strtolower($STANDARD_COLORS_COLOR_SYSTEMS['RAL']['id']) . '.css';
+        $css_file_min = $css_file_root . DIRECTORY_SEPARATOR . strtolower($STANDARD_COLORS_COLOR_SYSTEMS['RAL']['id']) . '.min.css';
+    
         /* Create directory if needed */
         (is_dir($css_file_root)) ?: mkdir($css_file_root, 0700, true);
-            
-            /* Touch the files */
+    
+        /* Touch the files */
         touch($css_file);
         touch($css_file_min);
-        
+    
         /* Get colors */
         $colors = $this->getAll();
-        
+    
         /**
          * Create CSS files
          */
@@ -153,36 +158,37 @@ class RALColorSystem extends ColorSystemAbstract implements ColorSystemIntreface
         $CSS_header .= ' * ' . "\n";
         $CSS_header .= ' * Run dist.php from PHP cli to regenerate this file and other files in dist directory.' . "\n";
         $CSS_header .= ' */' . "\n";
-        
+    
         /* regular */
         $CSS_body = '';
         foreach ($colors as $color) {
             // $CSS_header
             $CSS_body .= sprintf("/* %s */\n", $color->ID);
-            $CSS_body .= sprintf("%s {background-color:%s !important;}\n", $color->css_bg_hex, $color->hex);
-            $CSS_body .= sprintf("%s {background-color:rgb(%s,%s,%s) !important;}\n", $color->css_bg_rgb, $color->red, $color->green, $color->blue);
-            $CSS_body .= sprintf("%s {color:%s !important;}\n", $color->css_fg_hex, $color->text_hex);
-            $CSS_body .= sprintf("%s {color:rgb(%s,%s,%s) !important;}\n", $color->css_fg_rgb, $color->text_red, $color->text_green, $color->text_blue);
+            $CSS_body .= sprintf(".%s {background-color:%s !important;}\n", $color->css_bg_hex, $color->hex);
+            $CSS_body .= sprintf(".%s {background-color:rgb(%s,%s,%s) !important;}\n", $color->css_bg_rgb, $color->red, $color->green, $color->blue);
+            $CSS_body .= sprintf(".%s {color:%s !important;}\n", $color->css_fg_hex, $color->text_hex);
+            $CSS_body .= sprintf(".%s {color:rgb(%s,%s,%s) !important;}\n", $color->css_fg_rgb, $color->text_red, $color->text_green, $color->text_blue);
             
         }
-        
+    
         /* minified */
         $CSS_body_min = $this->minify_css($CSS_body);
         $line_lenght = 2000;
-        
+    
         /* will hold our new wordwraped css.min */
         $CSS_body_min_wrapped = '';
-        
+    
         /* Custom wordwrap */
         while (strlen($CSS_body_min) > $line_lenght)
         {
             $pos = strpos($CSS_body_min, '}', $line_lenght);
-            
+    
             $CSS_body_min_wrapped .= substr($CSS_body_min,0, $pos+1)."\n";
-            $CSS_body_min = substr($CSS_body_min, $pos+1);  
+            $CSS_body_min = substr($CSS_body_min, $pos+1);
         }
     
         /* Save regular CSS file and minified CSS file*/
         return file_put_contents($css_file,$CSS_header.$CSS_body) && file_put_contents($css_file_min,$CSS_header.$CSS_body_min_wrapped);
     }
+
 }

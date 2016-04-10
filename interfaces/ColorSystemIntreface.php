@@ -100,4 +100,6 @@ interface ColorSystemIntreface
      * @return bool true upon success
      */
     public function dist();
+    
+    public function html();
 }

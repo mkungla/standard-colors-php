@@ -189,6 +189,18 @@ class ColorSystemTests extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * Assert that we can cet instance of HTML document for each color system
+     */
+    public function test_html()
+    {
+        /* Can we load HTML dom document for each color system */
+        foreach ($this->ColorSystems as $ColorSystem) {
+            $html = $this->SC->cs($ColorSystem)->html();
+            $this->assertInstanceOf('\StandardColors\interfaces\HTML\DomDocumentInterface', $html);
+        }
+    }
+    
+    /**
      * Add Custom warnings
      *
      * @param string $msg            

@@ -25,6 +25,8 @@
  * @formatter:on */
 namespace StandardColors\lib\php5;
 
+use \StandardColors\lib\php5\html\DomDocument;
+
 abstract class ColorSystemAbstract
 {
 
@@ -43,6 +45,13 @@ abstract class ColorSystemAbstract
     protected $locale;
 
     /**
+     * Loaded Color system Standard ID
+     *
+     * @var unknown
+     */
+    protected $standard_id;
+
+    /**
      * Which Standard data revision this version of library uses
      *
      * Like: rev-1 etc.
@@ -52,10 +61,20 @@ abstract class ColorSystemAbstract
     protected $standard_rev;
 
     /**
+     * HTML dom document object if loaded
+     *
+     * Like: rev-1 etc.
+     *
+     * @var $htmlObject \StandardColors\interfaces\HTML\DomDocumentInterface
+     */
+    protected $htmlObject;
+
+    /**
      * ColorSystem constructor
      */
-    public function __construct($locale_id)
+    public function __construct($color_system, $locale_id)
     {
+        $this->color_system = $color_system;
         $this->locale = $locale_id;
     }
 
@@ -69,7 +88,7 @@ abstract class ColorSystemAbstract
     public function getDataPath()
     {
         $STANDARD_COLORS_COLOR_SYSTEMS = json_decode(STANDARD_COLORS_COLOR_SYSTEMS, true);
-        return STANDARD_COLORS_DATA_ROOT . DIRECTORY_SEPARATOR . $STANDARD_COLORS_COLOR_SYSTEMS[$this->standard_id]['id'] . DIRECTORY_SEPARATOR . $STANDARD_COLORS_COLOR_SYSTEMS[$this->standard_id]['rev'];
+        return STANDARD_COLORS_DATA_ROOT . DIRECTORY_SEPARATOR . $STANDARD_COLORS_COLOR_SYSTEMS[$this->color_system]['id'] . DIRECTORY_SEPARATOR . $STANDARD_COLORS_COLOR_SYSTEMS[$this->color_system]['rev'];
     }
 
     /**
@@ -157,6 +176,15 @@ abstract class ColorSystemAbstract
             '$1:0',
             '$1$2'
         ), $input);
+    }
+
+    public function html()
+    {
+        /* @formatter:off */
+        return (! $this->htmlObject instanceof DomDocument)
+        ? ($this->htmlObject = new DomDocument($this->getAll(), $this->color_system))
+        : $this->htmlObject;
+        /* @formatter:on */
     }
 }
  

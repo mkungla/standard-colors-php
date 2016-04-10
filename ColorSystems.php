@@ -29,13 +29,8 @@ class ColorSystems
 {
 
     /**
-     * Options
-     * RAL: Classic RAL System
-     * FS: The Federal Standard color system
-     * PMS: The Pantone Colour Matching System
-     * BS: The British Standards
-     *
-     * @var supported_color_systems
+     * 
+     * @var supported_color_systems array
      */
     private $supported_color_systems;
 
@@ -52,6 +47,12 @@ class ColorSystems
      * @var array supported_locales;
      */
     private $supported_locales;
+    
+    /**
+     * If requested then  HTMLDocument
+     * @var \StandardColors\lib\HTMLDocument $html_document
+     */
+    private $html_document;
     
     /**
      * StandardColors ColorSystems constructor
@@ -141,6 +142,17 @@ class ColorSystems
         return $this->locale;
     }
     
+    /**
+     * Get supported Color Systems
+     * 
+     * Options
+     * RAL: Classic RAL System
+     * FS: The Federal Standard color system
+     * PMS: The Pantone Colour Matching System
+     * BS: The British Standards
+     * 
+     * @return array supported Color Systems
+     */
     public function getSupportedColorSystems()
     {
         return $this->supported_color_systems;
@@ -163,7 +175,7 @@ class ColorSystems
          */
         if (! array_key_exists($color_system, $this->loaded_color_systems)) {
             /* Create conditional class name based on which php version we are using */
-            $color_standard_class = '\StandardColors\lib\php' . STANDARD_COLORS_PHP . '\\' . $color_system . '\\' . $color_system . 'ColorSystem';
+            $color_standard_class = '\StandardColors\lib\php' . STANDARD_COLORS_PHP . '\\CS\\' . $color_system . '\\' . $color_system . 'ColorSystem';
             if(!class_exists($color_standard_class))
                 return false;
             
@@ -171,12 +183,13 @@ class ColorSystems
              * This sets default locale if it is not set by user
              * Load the class 
              * */
-            $this->loaded_color_systems = new $color_standard_class($this->getLocale());
+            $this->loaded_color_systems[$color_system] = new $color_standard_class($color_system, $this->getLocale());
         }
         
         /**
          * Return requested Color System object
          */
-        return $this->loaded_color_systems;
+        return $this->loaded_color_systems[$color_system];
     }
+    
 }
