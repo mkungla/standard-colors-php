@@ -277,6 +277,9 @@ class DomSelect extends DomSelectAbstract implements DomSelectInterface
                 if(array_key_exists($color,$this->colors))
                     $options .= "\t".$this->option()->render($this->colors[$color],$use_rgb);
             }
+        } else {
+            foreach ($this->colors as $color)
+                $options .= "\t" . $this->option()->render($color, $use_rgb);
         }
         return $options;
     }

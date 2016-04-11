@@ -204,7 +204,7 @@ class DomSelect extends DomSelectAbstract implements DomSelectInterface
         $select .= $this->nodeMultiple();
         $select .= $this->nodeRequired();
         $select .= $this->nodeAttr();
-        $select .= '>'."\n";
+        $select .= '>' . "\n";
         $select .= $this->nodeOptions($use_rgb);
         $select .= '</select>' . "\n";
         return $select;
@@ -227,58 +227,59 @@ class DomSelect extends DomSelectAbstract implements DomSelectInterface
         $css_classes = (is_string($this->css_classes) && ! empty($this->css_classes) ? $this->css_classes : false);
         return empty($css_classes) ? '' : sprintf(' class="%s"', $css_classes);
     }
-    
+
     private function nodeAutofocus()
     {
-        return empty($this->attr_autofocus) ? '' : ' autofocus'; 
+        return empty($this->attr_autofocus) ? '' : ' autofocus';
     }
-    
+
     private function nodeDisabled()
     {
         return empty($this->attr_disabled) ? '' : ' disabled';
     }
-    
+
     private function nodeMultiple()
     {
         return empty($this->attr_multiple) ? '' : ' multiple';
     }
-    
+
     private function nodeRequired()
     {
         return empty($this->attr_required) ? '' : ' required';
     }
-    
+
     private function nodeSize()
     {
-        $attr_size = (is_int($this->attr_size) && !empty($this->attr_size)) ? $this->attr_size : false;
+        $attr_size = (is_int($this->attr_size) && ! empty($this->attr_size)) ? $this->attr_size : false;
         return empty($attr_size) ? '' : sprintf(' size="%d"', $attr_size);
     }
-    
+
     private function nodeAttr()
     {
-        if(!is_array($this->attributes) || empty($this->attributes))
+        if (! is_array($this->attributes) || empty($this->attributes))
             return '';
         
         $attributes = '';
-        foreach($this->attributes as $attribute => $value)
-        {
-            $attributes .= sprintf(' %s="%s"',(string) $attribute, (string) $value);
+        foreach ($this->attributes as $attribute => $value) {
+            $attributes .= sprintf(' %s="%s"', (string) $attribute, (string) $value);
         }
         return $attributes;
     }
-    
+
     private function nodeOptions($use_rgb = false)
     {
         $options = '';
-        if(is_array($this->filter_colors) && !empty($this->filter_colors))
-        {
-            foreach($this->filter_colors as $color)
-            {
-                if(array_key_exists($color,$this->colors))
-                    $options .= "\t".$this->option()->render($this->colors[$color],$use_rgb);
+        if (is_array($this->filter_colors) && ! empty($this->filter_colors)) {
+            foreach ($this->filter_colors as $color) {
+                if (array_key_exists($color, $this->colors))
+                    $options .= "\t" . $this->option()->render($this->colors[$color], $use_rgb);
             }
+        } else {
+            foreach ($this->colors as $color)
+                $options .= "\t" . $this->option()->render($color, $use_rgb);
         }
         return $options;
     }
 }
+
  
