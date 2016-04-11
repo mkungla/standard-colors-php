@@ -219,7 +219,7 @@ class DomSelect extends DomSelectAbstract implements DomSelectInterface
     private function nodeName()
     {
         $attr_name = ($this->attr_name === true) ? $this->color_system : (is_string($this->attr_name) ? $this->attr_name : false);
-        return empty($attr_name) ? '' : sprintf(' name="%s"', $attr_name);
+        return empty($attr_name) ? '' : (empty($this->attr_multiple) ? sprintf(' name="%s"', $attr_name) : sprintf(' name="%s[]"', $attr_name));
     }
 
     private function nodeCss()
