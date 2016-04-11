@@ -185,6 +185,10 @@ class RALColorSystem extends ColorSystemAbstract implements ColorSystemIntreface
             $CSS_body_min = substr($CSS_body_min, $pos+1);
         }
     
+        /* Add final string left from while to wraped body  */
+        $CSS_body_min_wrapped = $CSS_body_min_wrapped.$CSS_body_min;
+      
+        
         /* Save regular CSS file and minified CSS file*/
         return file_put_contents($css_file,$CSS_header.$CSS_body) && file_put_contents($css_file_min,$CSS_header.$CSS_body_min_wrapped);
     }
